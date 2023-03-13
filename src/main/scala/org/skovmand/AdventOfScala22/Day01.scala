@@ -3,11 +3,7 @@ import scala.util.{Failure, Success, Try}
 
 object Day01 {
   def main(args: Array[String]): Unit = {
-    val input =
-      Iterator
-        .continually(StdIn.readLine())
-        .takeWhile(_ != null)
-        .mkString("\n")
+    val input = Util.readStdinToString()
 
     Try(input)
       .flatMap(parseInput)
@@ -37,10 +33,10 @@ object Day01 {
   }
 
   private def findElfWithMaxCalories(elfItemCalories: Vector[Vector[Int]]): Try[Int] = {
-    Success(
+    Try {
       elfItemCalories
         .map(_.sum)
         .max
-    )
+    }
   }
 }
