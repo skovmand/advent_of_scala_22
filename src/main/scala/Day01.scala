@@ -26,7 +26,7 @@ object Day01 {
 
   // Part 1
 
-  private def solvePart1(input: String): Try[Int] = {
+  def solvePart1(input: String): Try[Int] = {
     Try(input)
       .flatMap(parseInput)
       .flatMap(findElfWithMaxCalories)
@@ -42,7 +42,7 @@ object Day01 {
 
   // Part 2
 
-  private def solvePart2(input: String): Try[Int] = {
+  def solvePart2(input: String): Try[Int] = {
     Try(input)
       .flatMap(parseInput)
       .map(findTop3Elves)
