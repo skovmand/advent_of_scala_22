@@ -5,9 +5,7 @@ object Day01 {
   def main(args: Array[String]): Unit = {
     val input = Util.readStdinToString()
 
-    Try(input)
-      .flatMap(parseInput)
-      .flatMap(findElfWithMaxCalories) match {
+    solvePart1(input) match {
       case Success(solution) => {
         println(s"Part 1: Elf with max calories is $solution")
       }
@@ -15,6 +13,12 @@ object Day01 {
         throw new RuntimeException("Could not solve puzzle", exception)
       }
     }
+  }
+
+  private def solvePart1(input: String): Try[Int] = {
+    Try(input)
+      .flatMap(parseInput)
+      .flatMap(findElfWithMaxCalories)
   }
 
   private def parseInput(input: String): Try[Vector[Vector[Int]]] = {
