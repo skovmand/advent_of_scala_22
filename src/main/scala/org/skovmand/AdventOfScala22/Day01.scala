@@ -9,9 +9,7 @@ object Day01 {
       .flatMap(parseInput)
       .flatMap(findElfWithMaxCalories) match {
       case Success(solution) => {
-        println(
-          "Part 1: Elf with max calories is " + solution
-        )
+        println(s"Part 1: Elf with max calories is $solution")
       }
       case Failure(exception) => {
         throw new RuntimeException("Could not solve puzzle", exception)
