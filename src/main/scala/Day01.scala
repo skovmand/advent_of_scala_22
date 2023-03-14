@@ -6,45 +6,47 @@ object Day01 {
     val input = Util.readStdinToString()
 
     solvePart1(input) match {
-      case Success(solution) => {
-        println(s"Part 1: Elf with max calories is $solution")
+      case Right(answer) => {
+        println(s"Part 1: Elf with max calories is $answer")
       }
-      case Failure(exception) => {
-        throw new RuntimeException("Could not solve day 1 part 1", exception)
+      case Left(reason) => {
+        println("Could not solve day 1 part 1: " + reason)
       }
     }
 
     solvePart2(input) match {
-      case Success(solution) => {
-        println(s"Part 2: Sum of calories for top three Elves is $solution")
+      case Right(answer) => {
+        println(s"Part 2: Sum of calories for top three Elves is $answer")
       }
-      case Failure(exception) => {
-        throw new RuntimeException("Could not solve day 1 part 2", exception)
+      case Left(reason) => {
+        println("Could not solve day 1 part 2: " + reason)
       }
     }
   }
 
   // Part 1
 
-  def solvePart1(input: String): Try[Int] = {
-    Try(input)
-      .flatMap(parseInput)
+  def solvePart1(input: String): Either[String, Int] = {
+    parseInput(input)
       .flatMap(findElfWithMaxCalories)
   }
 
-  private def findElfWithMaxCalories(elfItemCalories: Vector[Vector[Int]]): Try[Int] = {
-    Try {
-      elfItemCalories
-        .map(_.sum)
-        .max
+  private def findElfWithMaxCalories(elfItemCalories: Vector[Vector[Int]]): Either[String, Int] = {
+    if (elfItemCalories.isEmpty) {
+      Left("No calories in input")
+    } else {
+      Right(
+        elfItemCalories
+          .map(_.sum)
+          .max
+      )
     }
   }
 
   // Part 2
 
-  def solvePart2(input: String): Try[Int] = {
-    Try(input)
-      .flatMap(parseInput)
+  def solvePart2(input: String): Either[String, Int] = {
+    parseInput(input)
       .map(findTop3Elves)
   }
 
@@ -58,9 +60,9 @@ object Day01 {
 
   // Parsing
 
-  private def parseInput(input: String): Try[Vector[Vector[Int]]] = {
-    Try {
-      input
+  private def parseInput(input: String): Either[String, Vector[Vector[Int]]] = {
+    try {
+      val parsed = input
         .split("\n\n")
         .toVector
         .map(
@@ -68,6 +70,14 @@ object Day01 {
             .map(_.toInt)
             .toVector
         )
+
+      if (parsed.length < 3) {
+        Left("At least 3 elves are needed in input")
+      } else {
+        Right(parsed)
+      }
+    } catch {
+      case e: Exception => Left("Could not parse input: " + e.toString)
     }
   }
 }
