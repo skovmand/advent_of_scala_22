@@ -32,14 +32,14 @@ object Day01 {
   }
 
   private def findElfWithMaxCalories(elfItemCalories: Vector[Vector[Int]]): Either[String, Int] = {
-    if (elfItemCalories.isEmpty) {
-      Left("No calories in input")
-    } else {
+    try {
       Right(
         elfItemCalories
           .map(_.sum)
           .max
       )
+    } catch {
+      case _: UnsupportedOperationException => Left("Could not find a maximum")
     }
   }
 
